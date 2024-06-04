@@ -1,15 +1,15 @@
 {
   "files": {
-    "main.css": "/volatility_tracker/static/css/main.6716b44b.css",
-    "main.js": "/volatility_tracker/static/js/main.ab84c150.js",
-    "static/js/453.3b9bb0ec.chunk.js": "/volatility_tracker/static/js/453.3b9bb0ec.chunk.js",
-    "index.html": "/volatility_tracker/index.html",
-    "main.6716b44b.css.map": "/volatility_tracker/static/css/main.6716b44b.css.map",
-    "main.ab84c150.js.map": "/volatility_tracker/static/js/main.ab84c150.js.map",
-    "453.3b9bb0ec.chunk.js.map": "/volatility_tracker/static/js/453.3b9bb0ec.chunk.js.map"
+    "main.css": "/binance_volatility_tracker/static/css/main.6716b44b.css",
+    "main.js": "/binance_volatility_tracker/static/js/main.3f327876.js",
+    "static/js/453.3b9bb0ec.chunk.js": "/binance_volatility_tracker/static/js/453.3b9bb0ec.chunk.js",
+    "index.html": "/binance_volatility_tracker/index.html",
+    "main.6716b44b.css.map": "/binance_volatility_tracker/static/css/main.6716b44b.css.map",
+    "main.3f327876.js.map": "/binance_volatility_tracker/static/js/main.3f327876.js.map",
+    "453.3b9bb0ec.chunk.js.map": "/binance_volatility_tracker/static/js/453.3b9bb0ec.chunk.js.map"
   },
   "entrypoints": [
     "static/css/main.6716b44b.css",
-    "static/js/main.ab84c150.js"
+    "static/js/main.3f327876.js"
   ]
 }
