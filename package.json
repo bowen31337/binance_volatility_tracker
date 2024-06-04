@@ -2,7 +2,7 @@
   "name": "volatility_tracker",
   "version": "0.1.0",
   "private": true,
-  "homepage": "https://bowen31337.github.io/volatility_tracker",
+  "homepage": "https://bowen31337.github.io/binance_volatility_tracker",
   "dependencies": {
     "@testing-library/jest-dom": "^5.17.0",
     "@testing-library/react": "^13.4.0",
