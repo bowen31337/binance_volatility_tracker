@@ -1,70 +1,77 @@
-# Getting Started with Create React App
+# Binance Volatility Tracker
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+This project tracks the volatility of various cryptocurrency token pairs traded on the Binance exchange. The data is processed to identify the most volatile token pairs based on a custom volatility score.
 
-## Available Scripts
+## Data Fields from Binance API
 
-In the project directory, you can run:
+The following fields are provided by the Binance WebSocket API for each trading pair:
 
-### `npm start`
+- **e**: Event type (e.g., `24hrTicker`).
+- **E**: Event time (timestamp).
+- **s**: Symbol of the trading pair (e.g., BTCUSDT, ETHBTC).
+- **p**: Price change over the last 24 hours.
+- **P**: Price change percentage over the last 24 hours.
+- **w**: Weighted average price over the last 24 hours.
+- **x**: Previous day's closing price.
+- **c**: Current day's closing price (most recent trade).
+- **Q**: Current day's close quantity.
+- **b**: Best bid price.
+- **B**: Best bid quantity.
+- **a**: Best ask price.
+- **A**: Best ask quantity.
+- **o**: Opening price of the current day.
+- **h**: Highest price of the current day.
+- **l**: Lowest price of the current day.
+- **v**: Total traded base asset volume over the last 24 hours.
+- **q**: Total traded quote asset volume over the last 24 hours.
+- **O**: Statistics open time (timestamp).
+- **C**: Statistics close time (timestamp).
+- **F**: First trade ID.
+- **L**: Last trade ID.
+- **n**: Total number of trades over the last 24 hours.
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+## Data Fields Used in Volatility Calculation
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
+The data fields used in this project are as follows:
 
-### `npm test`
+- **Symbol (`s`)**: The trading pair symbol (e.g., BTCUSDT, ETHBTC).
+- **Price Change Percentage (`P`)**: The percentage change in the price of the trading pair over the last 24 hours.
+- **Volume (`v`)**: The total volume of the trading pair traded over the last 24 hours.
+- **Current Price (`c`)**: The current price of the trading pair.
+- **Best Bid Price (`b`)**: The highest price a buyer is willing to pay for the trading pair.
+- **Best Ask Price (`a`)**: The lowest price a seller is willing to accept for the trading pair.
+- **Open Price (`o`)**: The opening price of the trading pair for the current trading day.
+- **Number of Trades (`n`)**: The total number of trades executed for the trading pair over the last 24 hours.
+- **Timestamp (`timestamp`)**: The timestamp when the data was received.
+- **Direction (`direction`)**: The direction of the price movement (either 'up' or 'down').
+- **Bid-Ask Spread (`bid_ask_spread`)**: The difference between the best ask price and the best bid price.
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+## Volatility Calculation Strategy
 
-### `npm run build`
+The volatility score is calculated to identify the most volatile token pairs based on several metrics. The steps involved in the calculation are as follows:
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+1. **Filter Data**: Exclude token pairs that are based on USDT (i.e., symbols ending with 'USDT').
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+2. **Aggregate Data**: Group the data by the trading pair symbol and calculate the following aggregated metrics:
+    - Last price change percentage (`p`).
+    - Sum of volumes (`v`).
+    - Last current price (`c`).
+    - Last best bid price (`b`).
+    - Last best ask price (`a`).
+    - Sum of trade counts (`n`).
+    - Last direction of price movement (`direction`).
+    - Mean bid-ask spread (`bid_ask_spread`).
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+3. **Calculate Normalization Factors**: Determine the maximum values for price change percentage, volume, trade count, and bid-ask spread. These values are used to normalize the metrics.
 
-### `npm run eject`
+4. **Calculate Volatility Score**: The volatility score for each trading pair is calculated using the formula:
+    ```
+    volatility_score = (abs(price_change_percentage) + volume + trade_count + bid_ask_spread) / normalization_factor
+    ```
+   Where `normalization_factor` is the sum of the maximum values of the metrics.
 
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
+5. **Format Volume**: Format the volume to a human-readable format (e.g., 1.2k USD, 3.4M USD).
 
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+6. **Filter and Sort Data**: Filter out token pairs with a volatility score below a predefined threshold and sort the remaining pairs by their volatility score in descending order.
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
-
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
-
-## Learn More
-
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).
-
-### Code Splitting
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
-
-### Analyzing the Bundle Size
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
-
-### Making a Progressive Web App
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
-
-### Advanced Configuration
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
-
-### Deployment
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
-
-### `npm run build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+7. **Select Top 10**: Select the top 10 most volatile token pairs based on the calculated volatility score.
