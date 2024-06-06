@@ -26,3 +26,11 @@ body {
     font-size: 0.9rem;
   }
 }
+
+th.asc::after {
+  content: " ▲";
+}
+
+th.desc::after {
+  content: " ▼";
+}
